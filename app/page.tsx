@@ -46,16 +46,32 @@ const STEPS = [
 ];
 
 const NODE_COLORS = ["#7C5CBF", "#C45C8A", "#3A7BD5", "#5B8FA8"];
-const ALT_COLORS = ["#A78BFA", "#34D399"];
+const ALT_COLORS = ["#7C5CBF", "#3A7BD5"];
+
+// ── Design tokens ──
+const T = {
+  bg: "#FFFFFF",
+  surface: "#F4F2FB",
+  surfaceBorder: "#E2E0F4",
+  cardBg: "#FFFFFF",
+  cardBorder: "#E2E0F4",
+  purple: "#5B3FA0",
+  purpleMid: "#7C5CBF",
+  purpleLight: "#A78BFA",
+  ink: "#1A1430",
+  body: "#4A3F72",
+  muted: "#8B83B0",
+  ghost: "#C4BFE8",
+  darkCard: "#0f0c1e",
+  darkBorder: "rgba(167,139,250,0.2)",
+};
 
 function SoulSphere({ color, size = 40, glow = false }: {
   color: string; size?: number; glow?: boolean;
 }) {
   return (
     <div style={{
-      width: size,
-      height: size,
-      borderRadius: "50%",
+      width: size, height: size, borderRadius: "50%",
       background: `radial-gradient(circle at 35% 35%, ${color}ff, ${color}88 60%, ${color}22)`,
       boxShadow: glow
         ? `0 0 24px ${color}99, 0 0 48px ${color}33, inset 0 0 14px rgba(255,255,255,0.25)`
@@ -70,19 +86,11 @@ function SoulSphere({ color, size = 40, glow = false }: {
 function GraphConnector({ fromColor, toColor }: { fromColor: string; toColor: string }) {
   const id = `lg${fromColor.replace("#", "")}${toColor.replace("#", "")}`;
   const [hovered, setHovered] = useState(false);
-
   return (
     <div
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
-      style={{
-        display: "flex",
-        alignItems: "center",
-        padding: "0 2px",
-        marginTop: 0,
-        cursor: "pointer",
-        height: 44,
-      }}
+      style={{ display: "flex", alignItems: "center", padding: "0 2px", cursor: "pointer", height: 44 }}
     >
       <svg width="56" height="44" style={{ overflow: "visible" }}>
         <defs>
@@ -98,28 +106,19 @@ function GraphConnector({ fromColor, toColor }: { fromColor: string; toColor: st
             </feMerge>
           </filter>
         </defs>
-
-        {/* Stick / shaft */}
-        <line
-          x1="0" y1="22"
-          x2="42" y2="22"
+        <line x1="0" y1="22" x2="42" y2="22"
           stroke={`url(#${id})`}
           strokeWidth={hovered ? 3 : 1.5}
           strokeLinecap="round"
           filter={hovered ? `url(#glow-${id})` : "none"}
           style={{ transition: "stroke-width 0.2s" }}
         />
-
-        {/* Arrowhead */}
-        <polygon
-          points="40,16 56,22 40,28"
-          fill={`url(#${id})`}
-          opacity={hovered ? 1 : 0.4}
+        <polygon points="40,16 56,22 40,28"
+          fill={toColor}
+          opacity={hovered ? 1 : 0.35}
           filter={hovered ? `url(#glow-${id})` : "none"}
           style={{ transition: "opacity 0.2s" }}
         />
-
-        {/* Invisible wide hit area for easy hover */}
         <rect x="0" y="12" width="56" height="20" fill="transparent" />
       </svg>
     </div>
@@ -184,7 +183,7 @@ export default function Home() {
       const el = document.getElementById("reflection-card");
       if (!el) return;
       const { default: html2canvas } = await import("html2canvas");
-      const canvas = await html2canvas(el, { backgroundColor: "#0d0a1a", scale: 2 });
+      const canvas = await html2canvas(el, { backgroundColor: T.darkCard, scale: 2 });
       const link = document.createElement("a");
       link.download = "souling-identity-map.png";
       link.href = canvas.toDataURL();
@@ -196,10 +195,17 @@ export default function Home() {
     }
   }
 
+  const cardStyle = {
+    background: T.cardBg,
+    border: `0.5px solid ${T.cardBorder}`,
+    borderRadius: 20,
+    padding: "1.75rem",
+  };
+
   return (
     <main style={{
       minHeight: "100vh",
-      background: "#F4F2FB",
+      background: T.bg,
       padding: "0 0 5rem",
       fontFamily: "'Outfit', 'DM Sans', sans-serif",
     }}>
@@ -207,22 +213,19 @@ export default function Home() {
       {/* ── Header ── */}
       <div style={{ textAlign: "center", padding: "2.5rem 1rem 1.5rem" }}>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 10, marginBottom: "1rem" }}>
-          <img
-            src="/souling-logo.png"
-            alt="Souling"
-            style={{ width: 32, height: 32, borderRadius: "50%", objectFit: "cover" }}
-          />
-          <span style={{ fontSize: 11, letterSpacing: "0.22em", textTransform: "uppercase", color: "#7c5cbf" }}>
+          <img src="/souling-logo.png" alt="Souling"
+            style={{ width: 28, height: 28, borderRadius: "50%", objectFit: "cover" }} />
+          <span style={{ fontSize: 11, letterSpacing: "0.22em", textTransform: "uppercase", color: T.muted }}>
             Souling Lite
           </span>
         </div>
         <h1 style={{
-          fontSize: "clamp(1.75rem, 5vw, 2.6rem)", fontWeight: 300,
-          color: "#5B3FA0", letterSpacing: "-0.01em", marginBottom: "0.4rem", lineHeight: 1.15,
+          fontSize: "clamp(1.75rem, 5vw, 2.6rem)", fontWeight: 400,
+          color: T.purple, letterSpacing: "-0.02em", marginBottom: "0.4rem", lineHeight: 1.15,
         }}>
           Identity Graph Engine
         </h1>
-        <p style={{ fontSize: 13, color: "#8B83B0", letterSpacing: "0.04em" }}>
+        <p style={{ fontSize: 13, color: T.muted, letterSpacing: "0.02em" }}>
           Map your subconscious. Rewrite the pattern.
         </p>
       </div>
@@ -232,14 +235,12 @@ export default function Home() {
         {[0, 1, 2, 3, 4].map((i) => (
           <div key={i} style={{ display: "flex", alignItems: "center" }}>
             <div style={{
-              width: i === step ? 10 : 7,
-              height: i === step ? 10 : 7,
-              borderRadius: "50%",
-              transition: "all 0.3s",
-              background: i < step ? "#7c5cbf" : i === step ? "#a78bfa" : "#E2E0F4",
-              boxShadow: i === step ? "0 0 10px #a78bfa88" : "none",
+              width: i === step ? 10 : 7, height: i === step ? 10 : 7,
+              borderRadius: "50%", transition: "all 0.3s",
+              background: i < step ? T.purple : i === step ? T.purpleMid : T.surfaceBorder,
+              boxShadow: i === step ? `0 0 8px ${T.purpleMid}66` : "none",
             }} />
-            {i < 4 && <div style={{ width: 24, height: 1, background: "#E2E0F4" }} />}
+            {i < 4 && <div style={{ width: 24, height: 1, background: T.surfaceBorder }} />}
           </div>
         ))}
       </div>
@@ -248,18 +249,14 @@ export default function Home() {
 
         {/* ── Step 0: Photo ── */}
         {step === 0 && (
-          <div style={{
-            background: "rgba(255,255,255,0.04)",
-            border: "0.5px solid rgba(167,139,250,0.2)",
-            borderRadius: 20, padding: "1.75rem",
-          }}>
-            <p style={{ fontSize: 10, letterSpacing: "0.2em", textTransform: "uppercase", color: "#8B83B0", marginBottom: "0.75rem" }}>
+          <div style={cardStyle}>
+            <p style={{ fontSize: 10, letterSpacing: "0.2em", textTransform: "uppercase", color: T.muted, marginBottom: "0.75rem" }}>
               Step 1 of 5 — anchor
             </p>
-            <h2 style={{ fontSize: "1.35rem", fontWeight: 300, color: "#f0ebff", marginBottom: "0.4rem" }}>
+            <h2 style={{ fontSize: "1.35rem", fontWeight: 400, color: T.ink, marginBottom: "0.4rem" }}>
               A window to your younger self
             </h2>
-            <p style={{ fontSize: 13, color: "#8B83B0", marginBottom: "1.25rem", lineHeight: 1.6 }}>
+            <p style={{ fontSize: 13, color: T.body, marginBottom: "1.25rem", lineHeight: 1.6 }}>
               Upload a childhood photo. It grounds everything that follows.
             </p>
             <input ref={inputRef} type="file" accept="image/*" style={{ display: "none" }}
@@ -269,9 +266,9 @@ export default function Home() {
               onDragOver={e => e.preventDefault()}
               onDrop={e => { e.preventDefault(); e.dataTransfer.files[0] && handleFile(e.dataTransfer.files[0]); }}
               style={{
-                border: `1.5px dashed ${photo ? "rgba(167,139,250,0.5)" : "rgba(167,139,250,0.15)"}`,
+                border: `1.5px dashed ${photo ? T.purpleMid : T.surfaceBorder}`,
                 borderRadius: 12, cursor: "pointer", overflow: "hidden",
-                minHeight: photo ? "auto" : 160,
+                minHeight: photo ? "auto" : 160, background: T.surface,
                 display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 10,
                 transition: "all 0.2s",
               }}
@@ -280,27 +277,23 @@ export default function Home() {
                 <img src={photo.url} alt="childhood" style={{ width: "100%", maxHeight: 240, objectFit: "cover" }} />
               ) : (
                 <>
-                  <SoulSphere color="#7C5CBF" size={40} glow />
-                  <p style={{ fontSize: 13, color: "#8B83B0" }}>drag & drop or tap to browse</p>
-                  <p style={{ fontSize: 11, color: "#3a2f4a" }}>childhood photo</p>
+                  <SoulSphere color={T.purpleMid} size={44} glow />
+                  <p style={{ fontSize: 13, color: T.muted }}>drag & drop or tap to browse</p>
+                  <p style={{ fontSize: 11, color: T.muted }}>childhood photo</p>
                 </>
               )}
             </div>
-            <button
-              onClick={next}
-              disabled={!photo}
-              style={{
-                width: "100%", marginTop: "1rem", padding: "13px", borderRadius: 10, border: "none",
-                background: photo ? "linear-gradient(135deg, #7c5cbf, #5b3fa0)" : "#E2E0F4",
-                color: photo ? "#f0ebff" : "#4a3a5a",
-                fontSize: 13, cursor: photo ? "pointer" : "not-allowed",
-                boxShadow: photo ? "0 0 20px #7c5cbf44" : "none",
-                transition: "all 0.3s", letterSpacing: "0.03em",
-              }}
-            >
+            <button onClick={next} disabled={!photo} style={{
+              width: "100%", marginTop: "1rem", padding: "13px", borderRadius: 10, border: "none",
+              background: photo ? T.purple : T.purpleMid,
+              color: "#fff",
+              opacity: photo ? 1 : 0.4,
+              fontSize: 13, cursor: photo ? "pointer" : "not-allowed",
+              transition: "all 0.3s", letterSpacing: "0.03em", fontFamily: "inherit",
+            }}>
               continue →
             </button>
-            <p style={{ fontSize: 11, textAlign: "center", color: "#3a2f4a", marginTop: "0.75rem" }}>
+            <p style={{ fontSize: 11, textAlign: "center", color: T.ghost, marginTop: "0.75rem" }}>
               Photo stays on your device. Never uploaded to a server.
             </p>
           </div>
@@ -309,67 +302,56 @@ export default function Home() {
         {/* ── Steps 1–4: Prompts ── */}
         {step >= 1 && step <= 4 && (
           <div style={{
-            background: "rgba(255,255,255,0.04)",
-            border: `0.5px solid ${STEPS[step - 1].color}44`,
-            borderRadius: 20, padding: "1.75rem",
+            ...cardStyle,
+            borderColor: `${STEPS[step - 1].color}55`,
           }}>
-            <p style={{ fontSize: 10, letterSpacing: "0.2em", textTransform: "uppercase", color: "#8B83B0", marginBottom: "0.75rem" }}>
+            <p style={{ fontSize: 10, letterSpacing: "0.2em", textTransform: "uppercase", color: T.muted, marginBottom: "0.75rem" }}>
               Step {step + 1} of 5 — {STEPS[step - 1].label.toLowerCase()}
             </p>
             <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: "0.6rem" }}>
               <SoulSphere color={STEPS[step - 1].color} size={30} glow />
-              <h2 style={{ fontSize: "1.25rem", fontWeight: 300, color: "#f0ebff" }}>
+              <h2 style={{ fontSize: "1.25rem", fontWeight: 400, color: T.ink }}>
                 {STEPS[step - 1].heading}
               </h2>
             </div>
-            <p style={{ fontSize: 13, color: "#8B83B0", marginBottom: "1.25rem", lineHeight: 1.6 }}>
+            <p style={{ fontSize: 13, color: T.body, marginBottom: "1.25rem", lineHeight: 1.6 }}>
               {STEPS[step - 1].sub}
             </p>
             {photo && (
               <img src={photo.url} alt="" style={{
                 width: "100%", maxHeight: 90, objectFit: "cover",
-                borderRadius: 8, marginBottom: "1rem", opacity: 0.45,
+                borderRadius: 8, marginBottom: "1rem", opacity: 0.5,
               }} />
             )}
             <textarea
-              rows={4}
-              autoFocus
+              rows={4} autoFocus
               placeholder={STEPS[step - 1].placeholder}
               value={form[STEPS[step - 1].key]}
               onChange={e => { setForm({ ...form, [STEPS[step - 1].key]: e.target.value }); setError(""); }}
               style={{
                 width: "100%", borderRadius: 10,
-                border: `0.5px solid ${STEPS[step - 1].color}44`,
+                border: `0.5px solid ${T.surfaceBorder}`,
                 padding: "12px 14px", fontSize: 14,
-                color: "#f0ebff", background: "rgba(255,255,255,0.04)",
+                color: T.ink, background: T.surface,
                 resize: "none", outline: "none", lineHeight: 1.6,
                 fontFamily: "inherit",
               }}
             />
-            {error && (
-              <p style={{ fontSize: 12, color: "#f87171", marginTop: "0.5rem" }}>{error}</p>
-            )}
-            <button
-              onClick={next}
-              style={{
-                width: "100%", marginTop: "1rem", padding: "13px", borderRadius: 10, border: "none",
-                background: `linear-gradient(135deg, ${STEPS[step - 1].color}, ${STEPS[step - 1].color}99)`,
-                color: "#f0ebff", fontSize: 13, cursor: "pointer",
-                boxShadow: `0 0 20px ${STEPS[step - 1].color}44`,
-                letterSpacing: "0.03em", fontFamily: "inherit",
-              }}
-            >
+            {error && <p style={{ fontSize: 12, color: "#c0392b", marginTop: "0.5rem" }}>{error}</p>}
+            <button onClick={next} style={{
+              width: "100%", marginTop: "1rem", padding: "13px", borderRadius: 10, border: "none",
+              background: STEPS[step - 1].color,
+              color: "#fff", fontSize: 13, cursor: "pointer",
+              letterSpacing: "0.03em", fontFamily: "inherit", transition: "opacity 0.2s",
+            }}>
               {step === 4 ? "map my identity →" : "continue →"}
             </button>
             {step > 1 && (
-              <button
-                onClick={() => { setStep(step - 1); setError(""); }}
-                style={{
-                  width: "100%", marginTop: "0.5rem", padding: "10px", borderRadius: 10,
-                  border: "0.5px solid #2a1f3d", background: "transparent",
-                  color: "#8B83B0", fontSize: 13, cursor: "pointer", fontFamily: "inherit",
-                }}
-              >
+              <button onClick={() => { setStep(step - 1); setError(""); }} style={{
+                width: "100%", marginTop: "0.5rem", padding: "10px", borderRadius: 10,
+                border: `0.5px solid ${T.surfaceBorder}`, background: "transparent",
+                color: T.muted, fontSize: 13, cursor: "pointer", fontFamily: "inherit",
+              }}>
                 ← back
               </button>
             )}
@@ -378,28 +360,19 @@ export default function Home() {
 
         {/* ── Step 5: Loading ── */}
         {step === 5 && (
-          <div style={{
-            background: "rgba(255,255,255,0.04)",
-            border: "0.5px solid rgba(167,139,250,0.2)",
-            borderRadius: 20, padding: "3rem", textAlign: "center",
-          }}>
-            <style>{`
-              @keyframes pulse {
-                0%, 100% { transform: scale(1); opacity: 0.5; }
-                50% { transform: scale(1.5); opacity: 1; }
-              }
-            `}</style>
+          <div style={{ ...cardStyle, textAlign: "center", padding: "3rem" }}>
+            <style>{`@keyframes pulse{0%,100%{transform:scale(1);opacity:0.5}50%{transform:scale(1.5);opacity:1}}`}</style>
             <div style={{ display: "flex", justifyContent: "center", gap: 14, marginBottom: "1.5rem" }}>
               {NODE_COLORS.map((c, i) => (
                 <div key={i} style={{
-                  width: 14, height: 14, borderRadius: "50%",
+                  width: 12, height: 12, borderRadius: "50%",
                   background: `radial-gradient(circle at 35% 35%, ${c}ff, ${c}44)`,
-                  boxShadow: `0 0 10px ${c}88`,
+                  boxShadow: `0 0 8px ${c}88`,
                   animation: `pulse 1.4s ease-in-out ${i * 0.2}s infinite`,
                 }} />
               ))}
             </div>
-            <p style={{ fontSize: 15, fontWeight: 300, color: "#a78bfa" }}>
+            <p style={{ fontSize: 14, fontWeight: 300, color: T.body }}>
               mapping your identity graph...
             </p>
           </div>
@@ -409,20 +382,19 @@ export default function Home() {
         {step === 6 && result && (
           <div>
             <div id="reflection-card" style={{
-              background: "#0d0a1a",
+              background: T.darkCard,
               borderRadius: 20, overflow: "hidden",
-              border: "0.5px solid rgba(167,139,250,0.25)",
+              border: `0.5px solid ${T.darkBorder}`,
             }}>
-              {/* Photo header */}
               {photo && (
                 <img src={photo.url} alt="" style={{
-                  width: "100%", maxHeight: 180, objectFit: "cover", opacity: 0.7,
+                  width: "100%", maxHeight: 180, objectFit: "cover", opacity: 0.75,
                 }} />
               )}
 
               {/* Current map */}
               <div style={{ padding: "1.5rem 1.5rem 0.75rem" }}>
-                <p style={{ fontSize: 9, letterSpacing: "0.22em", textTransform: "uppercase", color: "#4a3a5a", marginBottom: "1.25rem" }}>
+                <p style={{ fontSize: 9, letterSpacing: "0.22em", textTransform: "uppercase", color: T.muted, marginBottom: "1.25rem" }}>
                   current identity map
                 </p>
                 <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", overflowX: "auto", paddingBottom: "0.5rem" }}>
@@ -435,10 +407,10 @@ export default function Home() {
                     <div key={i} style={{ display: "flex", alignItems: "center" }}>
                       <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 6, width: 90 }}>
                         <SoulSphere color={node.color} size={44} glow />
-                        <p style={{ fontSize: 9, letterSpacing: "0.15em", textTransform: "uppercase", color: node.color + "99", textAlign: "center" }}>
+                        <p style={{ fontSize: 9, letterSpacing: "0.15em", textTransform: "uppercase", color: node.color, textAlign: "center" }}>
                           {node.label}
                         </p>
-                        <p style={{ fontSize: 10, color: "#9a8fb4", lineHeight: 1.4, textAlign: "center", fontFamily: "inherit" }}>
+                        <p style={{ fontSize: 10, color: T.ghost, lineHeight: 1.4, textAlign: "center", fontFamily: "inherit" }}>
                           {node.val.slice(0, 35)}{node.val.length > 35 ? "…" : ""}
                         </p>
                       </div>
@@ -450,22 +422,20 @@ export default function Home() {
 
               {/* Bridge */}
               <div style={{
-                display: "flex", alignItems: "center",
-                padding: "0.6rem 1.5rem",
-                background: "rgba(167,139,250,0.04)",
-                borderTop: "0.5px solid rgba(167,139,250,0.1)",
-                borderBottom: "0.5px solid rgba(52,211,153,0.1)",
+                display: "flex", alignItems: "center", padding: "0.6rem 1.5rem",
+                borderTop: `0.5px solid ${T.darkBorder}`,
+                borderBottom: `0.5px solid ${T.darkBorder}`,
               }}>
-                <div style={{ flex: 1, height: 1, background: "linear-gradient(90deg, transparent, #7c5cbf55)" }} />
-                <span style={{ fontSize: 9, letterSpacing: "0.18em", textTransform: "uppercase", color: "#a78bfa", padding: "0 12px" }}>
+                <div style={{ flex: 1, height: 1, background: `linear-gradient(90deg, transparent, ${T.purpleMid}44)` }} />
+                <span style={{ fontSize: 9, letterSpacing: "0.18em", textTransform: "uppercase", color: T.purpleLight, padding: "0 12px" }}>
                   alternative path opens here
                 </span>
-                <div style={{ flex: 1, height: 1, background: "linear-gradient(90deg, #34d39955, transparent)" }} />
+                <div style={{ flex: 1, height: 1, background: `linear-gradient(90deg, ${T.purpleMid}44, transparent)` }} />
               </div>
 
               {/* Alternative map */}
               <div style={{ padding: "1rem 1.5rem 1.5rem" }}>
-                <p style={{ fontSize: 9, letterSpacing: "0.22em", textTransform: "uppercase", color: "#34d39966", marginBottom: "1.25rem" }}>
+                <p style={{ fontSize: 9, letterSpacing: "0.22em", textTransform: "uppercase", color: T.purpleLight, marginBottom: "1.25rem" }}>
                   alternative identity path
                 </p>
                 <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "center", gap: 0, marginBottom: "1.25rem" }}>
@@ -476,7 +446,7 @@ export default function Home() {
                     <div key={i} style={{ display: "flex", alignItems: "center" }}>
                       <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 8, width: 180 }}>
                         <SoulSphere color={node.color} size={56} glow />
-                        <p style={{ fontSize: 9, letterSpacing: "0.15em", textTransform: "uppercase", color: node.color + "99", textAlign: "center" }}>
+                        <p style={{ fontSize: 9, letterSpacing: "0.15em", textTransform: "uppercase", color: node.color, textAlign: "center" }}>
                           {node.label}
                         </p>
                         <p style={{ fontSize: 12, color: "#e0d4f4", lineHeight: 1.55, textAlign: "center", fontFamily: "inherit" }}>
@@ -490,22 +460,22 @@ export default function Home() {
 
                 {/* Small action */}
                 <div style={{
-                  background: "rgba(52,211,153,0.06)",
-                  border: "0.5px solid rgba(52,211,153,0.2)",
+                  background: `${T.purple}18`,
+                  border: `0.5px solid ${T.purpleMid}44`,
                   borderRadius: 12, padding: "1rem 1.1rem",
                 }}>
-                  <p style={{ fontSize: 9, letterSpacing: "0.18em", textTransform: "uppercase", color: "#34d399", marginBottom: "0.5rem" }}>
+                  <p style={{ fontSize: 9, letterSpacing: "0.18em", textTransform: "uppercase", color: T.purpleLight, marginBottom: "0.5rem" }}>
                     small action today
                   </p>
-                  <p style={{ fontSize: 14, color: "#a7f3d0", lineHeight: 1.75, fontFamily: "inherit" }}>
+                  <p style={{ fontSize: 14, color: "#e0d4f4", lineHeight: 1.75, fontFamily: "inherit" }}>
                     {result.small_action}
                   </p>
                 </div>
 
                 {/* Watermark */}
-                <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 6, marginTop: "1.25rem", opacity: 0.35 }}>
-                  <img src="/assets/souling-logo.png" alt="" style={{ width: 14, height: 14, borderRadius: "50%" }} />
-                  <span style={{ fontSize: 10, letterSpacing: "0.15em", textTransform: "uppercase", color: "#8B83B0" }}>
+                <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 6, marginTop: "1.25rem", opacity: 0.3 }}>
+                  <img src="/souling-logo.png" alt="" style={{ width: 14, height: 14, borderRadius: "50%" }} />
+                  <span style={{ fontSize: 10, letterSpacing: "0.15em", textTransform: "uppercase", color: T.muted }}>
                     Souling Lite
                   </span>
                 </div>
@@ -514,31 +484,23 @@ export default function Home() {
 
             {/* Action buttons */}
             <div style={{ display: "flex", gap: 8, marginTop: "0.75rem" }}>
-              <button
-                onClick={saveAsImage}
-                disabled={saving}
-                style={{
-                  flex: 1, padding: "12px", borderRadius: 10,
-                  border: "0.5px solid rgba(167,139,250,0.3)",
-                  background: "transparent", color: "#a78bfa",
-                  fontSize: 12, cursor: "pointer", fontFamily: "inherit",
-                }}
-              >
+              <button onClick={saveAsImage} disabled={saving} style={{
+                flex: 1, padding: "12px", borderRadius: 10,
+                border: `0.5px solid ${T.surfaceBorder}`,
+                background: "transparent", color: T.body,
+                fontSize: 12, cursor: "pointer", fontFamily: "inherit",
+              }}>
                 {saving ? "saving..." : "save as image"}
               </button>
-              <button
-                onClick={reset}
-                style={{
-                  flex: 1, padding: "12px", borderRadius: 10, border: "none",
-                  background: "linear-gradient(135deg, #7c5cbf, #5b3fa0)",
-                  color: "#f0ebff", fontSize: 12, cursor: "pointer",
-                  boxShadow: "0 0 20px #7c5cbf44", fontFamily: "inherit",
-                }}
-              >
+              <button onClick={reset} style={{
+                flex: 1, padding: "12px", borderRadius: 10, border: "none",
+                background: T.purple, color: "#fff",
+                fontSize: 12, cursor: "pointer", fontFamily: "inherit",
+              }}>
                 start again
               </button>
             </div>
-            <p style={{ fontSize: 11, textAlign: "center", color: "#3a2f4a", marginTop: "1rem", lineHeight: 1.6 }}>
+            <p style={{ fontSize: 11, textAlign: "center", color: T.ghost, marginTop: "1rem", lineHeight: 1.6 }}>
               Souling Lite is a reflective tool, not therapy or medical advice.
             </p>
           </div>
