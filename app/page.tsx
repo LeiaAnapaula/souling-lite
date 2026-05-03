@@ -69,17 +69,58 @@ function SoulSphere({ color, size = 40, glow = false }: {
 
 function GraphConnector({ fromColor, toColor }: { fromColor: string; toColor: string }) {
   const id = `lg${fromColor.replace("#", "")}${toColor.replace("#", "")}`;
+  const [hovered, setHovered] = useState(false);
+
   return (
-    <div style={{ display: "flex", alignItems: "center", padding: "0 4px", marginTop: "-24px" }}>
-      <svg width="48" height="2" style={{ overflow: "visible" }}>
+    <div
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      style={{
+        display: "flex",
+        alignItems: "center",
+        padding: "0 2px",
+        marginTop: 0,
+        cursor: "pointer",
+        height: 44,
+      }}
+    >
+      <svg width="56" height="44" style={{ overflow: "visible" }}>
         <defs>
           <linearGradient id={id} x1="0" y1="0" x2="1" y2="0">
-            <stop offset="0%" stopColor={fromColor} stopOpacity={0.5} />
-            <stop offset="100%" stopColor={toColor} stopOpacity={0.5} />
+            <stop offset="0%" stopColor={fromColor} stopOpacity={hovered ? 1 : 0.4} />
+            <stop offset="100%" stopColor={toColor} stopOpacity={hovered ? 1 : 0.4} />
           </linearGradient>
+          <filter id={`glow-${id}`} x="-20%" y="-100%" width="140%" height="300%">
+            <feGaussianBlur stdDeviation="3" result="coloredBlur" />
+            <feMerge>
+              <feMergeNode in="coloredBlur" />
+              <feMergeNode in="SourceGraphic" />
+            </feMerge>
+          </filter>
         </defs>
-        <line x1="0" y1="1" x2="48" y2="1"
-          stroke={`url(#${id})`} strokeWidth="1.5" strokeDasharray="4 3" />
+
+        {/* Stick / shaft */}
+        <line
+          x1="0" y1="22"
+          x2="42" y2="22"
+          stroke={`url(#${id})`}
+          strokeWidth={hovered ? 3 : 1.5}
+          strokeLinecap="round"
+          filter={hovered ? `url(#glow-${id})` : "none"}
+          style={{ transition: "stroke-width 0.2s" }}
+        />
+
+        {/* Arrowhead */}
+        <polygon
+          points="40,16 56,22 40,28"
+          fill={`url(#${id})`}
+          opacity={hovered ? 1 : 0.4}
+          filter={hovered ? `url(#glow-${id})` : "none"}
+          style={{ transition: "opacity 0.2s" }}
+        />
+
+        {/* Invisible wide hit area for easy hover */}
+        <rect x="0" y="12" width="56" height="20" fill="transparent" />
       </svg>
     </div>
   );
@@ -158,7 +199,7 @@ export default function Home() {
   return (
     <main style={{
       minHeight: "100vh",
-      background: "linear-gradient(135deg, #0d0a1a 0%, #1a0f2e 50%, #0a1628 100%)",
+      background: "#F4F2FB",
       padding: "0 0 5rem",
       fontFamily: "'Outfit', 'DM Sans', sans-serif",
     }}>
@@ -177,11 +218,11 @@ export default function Home() {
         </div>
         <h1 style={{
           fontSize: "clamp(1.75rem, 5vw, 2.6rem)", fontWeight: 300,
-          color: "#f0ebff", letterSpacing: "-0.01em", marginBottom: "0.4rem", lineHeight: 1.15,
+          color: "#5B3FA0", letterSpacing: "-0.01em", marginBottom: "0.4rem", lineHeight: 1.15,
         }}>
           Identity Graph Engine
         </h1>
-        <p style={{ fontSize: 13, color: "#6b6080", letterSpacing: "0.04em" }}>
+        <p style={{ fontSize: 13, color: "#8B83B0", letterSpacing: "0.04em" }}>
           Map your subconscious. Rewrite the pattern.
         </p>
       </div>
@@ -195,10 +236,10 @@ export default function Home() {
               height: i === step ? 10 : 7,
               borderRadius: "50%",
               transition: "all 0.3s",
-              background: i < step ? "#7c5cbf" : i === step ? "#a78bfa" : "#2a1f3d",
+              background: i < step ? "#7c5cbf" : i === step ? "#a78bfa" : "#E2E0F4",
               boxShadow: i === step ? "0 0 10px #a78bfa88" : "none",
             }} />
-            {i < 4 && <div style={{ width: 24, height: 1, background: "#2a1f3d" }} />}
+            {i < 4 && <div style={{ width: 24, height: 1, background: "#E2E0F4" }} />}
           </div>
         ))}
       </div>
@@ -212,13 +253,13 @@ export default function Home() {
             border: "0.5px solid rgba(167,139,250,0.2)",
             borderRadius: 20, padding: "1.75rem",
           }}>
-            <p style={{ fontSize: 10, letterSpacing: "0.2em", textTransform: "uppercase", color: "#6b6080", marginBottom: "0.75rem" }}>
+            <p style={{ fontSize: 10, letterSpacing: "0.2em", textTransform: "uppercase", color: "#8B83B0", marginBottom: "0.75rem" }}>
               Step 1 of 5 — anchor
             </p>
             <h2 style={{ fontSize: "1.35rem", fontWeight: 300, color: "#f0ebff", marginBottom: "0.4rem" }}>
               A window to your younger self
             </h2>
-            <p style={{ fontSize: 13, color: "#6b6080", marginBottom: "1.25rem", lineHeight: 1.6 }}>
+            <p style={{ fontSize: 13, color: "#8B83B0", marginBottom: "1.25rem", lineHeight: 1.6 }}>
               Upload a childhood photo. It grounds everything that follows.
             </p>
             <input ref={inputRef} type="file" accept="image/*" style={{ display: "none" }}
@@ -240,7 +281,7 @@ export default function Home() {
               ) : (
                 <>
                   <SoulSphere color="#7C5CBF" size={40} glow />
-                  <p style={{ fontSize: 13, color: "#6b6080" }}>drag & drop or tap to browse</p>
+                  <p style={{ fontSize: 13, color: "#8B83B0" }}>drag & drop or tap to browse</p>
                   <p style={{ fontSize: 11, color: "#3a2f4a" }}>childhood photo</p>
                 </>
               )}
@@ -250,7 +291,7 @@ export default function Home() {
               disabled={!photo}
               style={{
                 width: "100%", marginTop: "1rem", padding: "13px", borderRadius: 10, border: "none",
-                background: photo ? "linear-gradient(135deg, #7c5cbf, #5b3fa0)" : "#2a1f3d",
+                background: photo ? "linear-gradient(135deg, #7c5cbf, #5b3fa0)" : "#E2E0F4",
                 color: photo ? "#f0ebff" : "#4a3a5a",
                 fontSize: 13, cursor: photo ? "pointer" : "not-allowed",
                 boxShadow: photo ? "0 0 20px #7c5cbf44" : "none",
@@ -272,7 +313,7 @@ export default function Home() {
             border: `0.5px solid ${STEPS[step - 1].color}44`,
             borderRadius: 20, padding: "1.75rem",
           }}>
-            <p style={{ fontSize: 10, letterSpacing: "0.2em", textTransform: "uppercase", color: "#6b6080", marginBottom: "0.75rem" }}>
+            <p style={{ fontSize: 10, letterSpacing: "0.2em", textTransform: "uppercase", color: "#8B83B0", marginBottom: "0.75rem" }}>
               Step {step + 1} of 5 — {STEPS[step - 1].label.toLowerCase()}
             </p>
             <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: "0.6rem" }}>
@@ -281,7 +322,7 @@ export default function Home() {
                 {STEPS[step - 1].heading}
               </h2>
             </div>
-            <p style={{ fontSize: 13, color: "#6b6080", marginBottom: "1.25rem", lineHeight: 1.6 }}>
+            <p style={{ fontSize: 13, color: "#8B83B0", marginBottom: "1.25rem", lineHeight: 1.6 }}>
               {STEPS[step - 1].sub}
             </p>
             {photo && (
@@ -326,7 +367,7 @@ export default function Home() {
                 style={{
                   width: "100%", marginTop: "0.5rem", padding: "10px", borderRadius: 10,
                   border: "0.5px solid #2a1f3d", background: "transparent",
-                  color: "#6b6080", fontSize: 13, cursor: "pointer", fontFamily: "inherit",
+                  color: "#8B83B0", fontSize: 13, cursor: "pointer", fontFamily: "inherit",
                 }}
               >
                 ← back
@@ -464,7 +505,7 @@ export default function Home() {
                 {/* Watermark */}
                 <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 6, marginTop: "1.25rem", opacity: 0.35 }}>
                   <img src="/assets/souling-logo.png" alt="" style={{ width: 14, height: 14, borderRadius: "50%" }} />
-                  <span style={{ fontSize: 10, letterSpacing: "0.15em", textTransform: "uppercase", color: "#6b6080" }}>
+                  <span style={{ fontSize: 10, letterSpacing: "0.15em", textTransform: "uppercase", color: "#8B83B0" }}>
                     Souling Lite
                   </span>
                 </div>
