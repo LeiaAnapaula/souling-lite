@@ -6,7 +6,7 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 
 ---
 
-<img width="1286" height="846" alt="Screenshot 2026-05-03 at 1 16 56 PM" src="https://github.com/user-attachments/assets/90c614a8-ba5a-458e-a85a-b7ad6b945f61" />
+<img width="1281" height="799" alt="Screenshot 2026-05-03 at 1 40 12 PM" src="https://github.com/user-attachments/assets/47ce4555-0d09-487e-b00c-aaac032130b1" />
 
 ---
 
@@ -31,15 +31,14 @@ This is the core innovation. Not a chatbot. Not a journal. A structured map of t
 **Step 1 — Anchor**
 Upload a childhood photo. It stays local, never sent to a server.
 
-<img width="1282" height="807" alt="Screenshot 2026-05-03 at 1 21 54 PM" src="https://github.com/user-attachments/assets/1f493bff-5a14-402c-a7cb-aa9a78f6c344" />
+<img width="1286" height="846" alt="Screenshot 2026-05-03 at 1 16 56 PM" src="https://github.com/user-attachments/assets/90c614a8-ba5a-458e-a85a-b7ad6b945f61" />
 
 ---
 
 **Step 2 — Memory**
 "What memory comes up when you look at this photo?"
 
-<img width="1279" height="816" alt="Screenshot 2026-05-03 at 1 22 11 PM" src="https://github.com/user-attachments/assets/e2ddccce-3d49-4cd8-a6c9-484121616f54" />
-
+<img width="1282" height="807" alt="Screenshot 2026-05-03 at 1 21 54 PM" src="https://github.com/user-attachments/assets/1f493bff-5a14-402c-a7cb-aa9a78f6c344" />
 
 ---
 
@@ -60,21 +59,21 @@ Upload a childhood photo. It stays local, never sent to a server.
 **Step 5 — Behavior**
 "How does that belief show up in your life today?"
 
-<img width="1284" height="930" alt="Screenshot 2026-05-03 at 1 25 40 PM" src="https://github.com/user-attachments/assets/6af30916-34e3-47d4-a9bb-270161267777" />
+<img width="1281" height="838" alt="Screenshot 2026-05-03 at 1 25 05 PM" src="https://github.com/user-attachments/assets/6140bdfa-0bd8-46ad-8356-e5dcaef3ad76" />
 
 ---
 
 **Result — Identity Graph**
 The AI generates your current identity map as luminous connected nodes, then opens an alternative path.
 
-<img width="1281" height="838" alt="Screenshot 2026-05-03 at 1 25 05 PM" src="https://github.com/user-attachments/assets/6140bdfa-0bd8-46ad-8356-e5dcaef3ad76" />
+<img width="1284" height="930" alt="Screenshot 2026-05-03 at 1 25 40 PM" src="https://github.com/user-attachments/assets/6af30916-34e3-47d4-a9bb-270161267777" />
 
 ---
 
 **Saveable Card**
 The reflection card can be saved as an image and kept or shared.
 
-
+<img width="419" height="117" alt="Screenshot 2026-05-03 at 1 39 09 PM" src="https://github.com/user-attachments/assets/5aeeaad8-d622-429f-a0d0-8efcdef14560" />
 
 ---
 
@@ -172,7 +171,7 @@ Founder, Souling
 
 *Souling Lite is a doorway. The universe behind it is Souling.*
 
-<img width="1157" height="778" alt="Screenshot 2026-05-03 at 1 15 20 PM" src="https://github.com/user-attachments/assets/9cfa26d9-68ba-4897-b1dc-fbd2954dff1c" />
+<img width="1024" height="1024" alt="Souling_New Logo" src="https://github.com/user-attachments/assets/34d0bbe5-5621-4d7e-9ce5-8f7206601f0d" />
 
 
 
