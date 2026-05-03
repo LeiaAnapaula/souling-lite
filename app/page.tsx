@@ -1,6 +1,3 @@
-import { Outfit } from "next/font/google";
-const outfit = Outfit({ subsets: ["latin"], weight: ["300", "400", "500"] });
-
 "use client";
 import { useState, useRef } from "react";
 
@@ -170,7 +167,7 @@ export default function Home() {
       <div style={{ textAlign: "center", padding: "2.5rem 1rem 1.5rem" }}>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 10, marginBottom: "1rem" }}>
           <img
-            src="/assets/souling-logo.png"
+            src="/souling-logo.png"
             alt="Souling"
             style={{ width: 32, height: 32, borderRadius: "50%", objectFit: "cover" }}
           />
