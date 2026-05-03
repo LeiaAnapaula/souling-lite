@@ -113,6 +113,7 @@ cp .env.example .env.local
 Open `.env.local` and add:
 
 ANTHROPIC_API_KEY=your-claude-key-here
+
 GEMINI_API_KEY=your-gemini-key-here
 
 Get your keys:
