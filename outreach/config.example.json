@@ -1,0 +1,18 @@
+{
+  "sender": {
+    "name": "Leia Anapaula",
+    "email": "you@yourdomain.com",
+    "about": "a Berkeley student building tools that map how people think.",
+    "booking": "https://cal.com/your-handle/15min",
+    "address": "Berkeley, CA"
+  },
+  "provider": "dry-run",
+  "dailyCap": 40,
+  "minSecondsBetweenSends": 45,
+  "sendWindow": { "start": 8, "end": 18, "timezone": "America/Los_Angeles" },
+  "weekdaysOnly": true,
+  "maxGuessAttempts": 2,
+  "requireVerifiedOrFound": false,
+  "model": "claude-opus-5",
+  "optOutLine": "If you'd rather not hear from me again, reply with \"no thanks\" and I'll stop."
+}

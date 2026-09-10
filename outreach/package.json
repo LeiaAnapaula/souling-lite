@@ -1,0 +1,6 @@
+{
+  "name": "outreach",
+  "private": true,
+  "type": "module",
+  "description": "Marks this directory as ESM so Node runs the .ts files directly. Dependencies live in the root package.json."
+}

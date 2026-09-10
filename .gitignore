@@ -39,3 +39,7 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# outreach automation: local state and credentials
+/outreach/data/
+/outreach/config.json

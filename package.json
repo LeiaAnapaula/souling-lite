@@ -6,9 +6,13 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "outreach": "node --no-warnings=ExperimentalWarning outreach/cli.ts",
+    "outreach:test": "node --no-warnings=ExperimentalWarning --test \"outreach/tests/*.test.ts\"",
+    "outreach:typecheck": "tsc -p outreach/tsconfig.json"
   },
   "dependencies": {
+    "@anthropic-ai/sdk": "^0.125.0",
     "html2canvas": "^1.4.1",
     "next": "16.2.4",
     "react": "19.2.4",

@@ -1,0 +1,18 @@
+{
+  "name": "default",
+  "steps": [
+    {
+      "delayDays": 0,
+      "subject": "quick one, {{first}}",
+      "body": "Hi {{first}},\n\n{{hook}}\n\nI'm {{sender.name}}, {{sender.about}}\n\nI'd love 15 minutes to ask you two questions about how you think about this. Happy to work around your calendar, or you can grab any slot here: {{sender.booking}}\n\nThank you,\n{{sender.first}}"
+    },
+    {
+      "delayDays": 3,
+      "body": "Hi {{first}},\n\nFloating this back up in case it got buried. Two questions, 15 minutes, any time that suits you: {{sender.booking}}\n\n{{sender.first}}"
+    },
+    {
+      "delayDays": 7,
+      "body": "Hi {{first}},\n\nLast note from me. If the timing is wrong, no worries at all. If there's someone on your team who would be a better fit for this, I'd be grateful for a pointer.\n\n{{sender.first}}"
+    }
+  ]
+}
